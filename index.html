@@ -1,122 +1,171 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anil Jangid - Software Developer Portfolio</title>
-  <meta name="description" content="Portfolio of Anil Jangid, a software developer skilled in Java, Spring Boot, React.js, Vue.js, HTML, CSS, Bootstrap, Grails, and MySQL, based in Bengaluru.">
-  <meta name="keywords" content="Anil Jangid, software developer, Java, Spring Boot, React.js, Vue.js, web development, Bengaluru, IIM Ahmedabad">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anil Jangid - Full-Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .skill-tag {
+            display: inline-block;
+            background-color: #e2e8f0;
+            color: #475569;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .skill-tag:hover {
+            background-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+    </style>
 </head>
-<body>
-  <div class="main-container">
-    <!-- Header -->
-    <header class="header">
-      <div class="container header-content">
-        <img src="profile.jpg" alt="Anil Jangid" class="profile-photo">
-        <div>
-          <h1>Anil Jangid</h1>
-          <p>Software Developer | Java, Spring Boot, React.js, Vue.js</p>
+<body class="antialiased text-slate-700">
+    <!-- Main Container -->
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+
+            <!-- Header Section -->
+            <header class="text-center mb-10">
+                <h1 class="text-4xl sm:text-5xl font-bold text-slate-800">Jangid Anil Rameshwar</h1>
+                <p class="text-xl text-slate-500 mt-2">Full-Stack Developer</p>
+                
+                <!-- Contact Information -->
+                <div class="flex justify-center items-center flex-wrap gap-x-6 gap-y-2 mt-6 text-sm text-slate-600">
+                    <a href="tel:+919096616078" class="flex items-center gap-2 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-phone fa-fw"></i>
+                        +91 9096616078
+                    </a>
+                    <a href="mailto:aniljangidaj6@gmail.com" class="flex items-center gap-2 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-envelope fa-fw"></i>
+                        aniljangidaj6@gmail.com
+                    </a>
+                    <a href="https://linkedin.com/in/anil-jangid-169910160" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-blue-600 transition-colors">
+                        <i class="fab fa-linkedin fa-fw"></i>
+                        linkedin.com/in/anil-jangid
+                    </a>
+                     <div class="flex items-center gap-2">
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        Karad, Satara, Maharashtra
+                    </div>
+                </div>
+            </header>
+
+            <!-- Career Objective Section -->
+            <section class="mb-10">
+                <h2 class="section-title">Career Objective</h2>
+                <p class="text-base leading-relaxed">
+                    A dedicated and results-oriented Software Engineer with nearly 6 years of experience. Eager to contribute to a progressive organization by leveraging expertise in full-stack development to deliver innovative web and mobile solutions that drive business growth and enhance user experience.
+                </p>
+            </section>
+
+            <!-- Technical Skills Section -->
+            <section class="mb-10">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-slate-800 mb-2">Frontend</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-tag">Vue.js (v2/v3)</span>
+                            <span class="skill-tag">React.js</span>
+                            <span class="skill-tag">Vite</span>
+                            <span class="skill-tag">Vuetify</span>
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">jQuery</span>
+                            <span class="skill-tag">AJAX</span>
+                            <span class="skill-tag">Bootstrap</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-slate-800 mb-2">Backend</h3>
+                         <div class="flex flex-wrap">
+                            <span class="skill-tag">Grails</span>
+                            <span class="skill-tag">Groovy</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Spring Boot</span>
+                            <span class="skill-tag">RESTful APIs</span>
+                            <span class="skill-tag">MVC Architecture</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-slate-800 mb-2">Mobile & Database</h3>
+                         <div class="flex flex-wrap">
+                            <span class="skill-tag">Flutter</span>
+                            <span class="skill-tag">Dart</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">XAMPP</span>
+                            <span class="skill-tag">Schema Design</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-slate-800 mb-2">Deployment & Tools</h3>
+                         <div class="flex flex-wrap">
+                            <span class="skill-tag">Google Play Console</span>
+                            <span class="skill-tag">CI/CD</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Automated Testing</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Work Experience Section -->
+            <section class="mb-10">
+                <h2 class="section-title">Work Experience</h2>
+                <div class="relative pl-6 before:absolute before:left-0 before:top-2 before:h-full before:w-0.5 before:bg-slate-200">
+                    <div class="relative mb-8">
+                        <div class="absolute -left-7 top-1.5 h-2 w-2 rounded-full bg-blue-500"></div>
+                        <h3 class="text-lg font-semibold text-slate-800">Software Engineer</h3>
+                        <p class="font-medium text-slate-600">Vishwakarma Global Education Services Private Limited (VGESPL)</p>
+                        <p class="text-sm text-slate-500">November 2019 - Present (5.9 years)</p>
+                        <ul class="mt-4 list-disc list-outside pl-5 space-y-2 text-base">
+                            <li>Developed and maintained over 15 responsive, SEO-friendly web applications using Vue.js and React, enhancing user engagement through features like interactive quizzes.</li>
+                            <li>Engineered robust backend systems with Grails and Groovy, implementing scalable RESTful APIs and optimizing server-side logic for high-traffic applications.</li>
+                            <li>Designed and optimized MySQL database schemas, writing complex queries and triggers to ensure data integrity and improve data retrieval performance.</li>
+                            <li>Built and deployed cross-platform mobile apps using Flutter and Dart, delivering a seamless user experience on both iOS and Android.</li>
+                            <li>Managed the full lifecycle of app deployments via the Google Play Store, streamlining CI/CD pipelines with automated testing and version control for reliable releases.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section>
+                <h2 class="section-title">Education</h2>
+                 <div class="relative pl-6">
+                     <div class="absolute -left-7 top-1.5 h-2 w-2 rounded-full bg-blue-500"></div>
+                    <h3 class="text-lg font-semibold text-slate-800">B.E. in Computer Science & Engineering</h3>
+                    <p class="font-medium text-slate-600">Annasabeb Dange College of Engineering (Shivaji University, Kolhapur)</p>
+                    <p class="text-sm text-slate-500">Graduated: 2019 | Percentage: 72%</p>
+                </div>
+            </section>
         </div>
-      </div>
-    </header>
-
-    <!-- About Section -->
-    <section class="container about-section">
-      <h2 class="section-title">About Me</h2>
-      <p>
-        I'm a passionate software developer based in Bengaluru, India, currently working at Monet Work. With a background from the Indian Institute of Management Ahmedabad, I specialize in building robust web applications using Java, Spring Boot, React.js, Vue.js, HTML, CSS, Bootstrap, Grails, and MySQL. My expertise lies in creating scalable backend systems and dynamic, user-friendly frontends.
-      </p>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills-section">
-      <div class="container">
-        <h2 class="section-title">Skills</h2>
-        <ul class="skills-grid">
-          <li class="skill-item"><img src="skill-icons/java.png" alt="Java" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/spring.png" alt="Spring Boot" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/react.png" alt="React.js" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/vue.png" alt="Vue.js" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/html.png" alt="HTML" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/css.png" alt="CSS" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/bootstrap.png" alt="Bootstrap" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/grails.png" alt="Grails" class="skill-icon"></li>
-          <li class="skill-item"><img src="skill-icons/mysql.png" alt="MySQL" class="skill-icon"></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="container projects-section">
-      <h2 class="section-title">Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <img src="project1.jpg" alt="E-Commerce Platform" class="project-image">
-          <h3>E-Commerce Platform</h3>
-          <p>Built a full-stack e-commerce application using Spring Boot, React.js, and MySQL. Features include user authentication, product catalog, and payment integration.</p>
-        </div>
-        <div class="project-card">
-          <img src="project2.jpg" alt="Task Management App" class="project-image">
-          <h3>Task Management App</h3>
-          <p>Developed a task management system with Vue.js and Grails, enabling real-time task updates and database persistence with MySQL.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section">
-      <div class="container">
-        <h2 class="section-title">Get in Touch</h2>
-        <p>Email: anil.jangid@example.com</p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/anil-jangid-165910160/" class="link">linkedin.com/in/anil-jangid-165910160</a></p>
-        <p>Location: Bengaluru, India</p>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <p>© 2025 Anil Jangid. All rights reserved.</p>
-    </footer>
-  </div>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-6 text-xs text-slate-400">
+            <p>Jangid Anil Rameshwar | This resume was created with assistance from an AI model.</p>
+        </footer>
+    </div>
 </body>
 </html>
